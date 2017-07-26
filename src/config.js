@@ -8,4 +8,4 @@
 
  const TYPE_VUE = 'vue'
  export default config
- export default TYPE_VUE
+//  export default TYPE_VUE

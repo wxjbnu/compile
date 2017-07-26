@@ -5,4 +5,5 @@
 - component:组件(未实现)
 
 ## 运行
+- npm i
 - npm run build
