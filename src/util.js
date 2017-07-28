@@ -1,5 +1,5 @@
 var WEAPP_TAGS = ['view', 'text', 'navigator', 'image'];
-var HTML_TAGS = `'html,body,base,head,link,meta,style,title,
+var HTML_TAGS = `html,body,base,head,link,meta,style,title,
     address,article,aside,footer,header,h1,h2,h3,h4,h5,h6,hgroup,
     nav,section,div,dd,dl,dt,figcaption,figure,hr,img,li,main,ol,p,pre,
     ul,a,b,abbr,bdi,bdo,br,cite,code,data,dfn,em,i,kbd,mark,q,rp,rt,rtc,
