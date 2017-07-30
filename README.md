@@ -8,12 +8,14 @@
 - dom的内嵌值、内嵌事件、内嵌样式
 - API的替换
 
+### 已有命令
+- npm run build
+- npm run copy
+- npm run init
 
 ## 运行
 - npm i
 - npm run build
-
-
 
 ### 流程
 - 首先运行初始化 将templates里面文件复制出来

@@ -8,6 +8,11 @@
   },
   "scripts": {
     "build": "babel-node src/index.js",
-    "copy": "babel-node src/fs.js"
+    "copy": "babel-node src/fs.js",
+    "init": "babel-node src/create.js"
+  },
+  "dependencies": {
+    "colors": "^1.1.2",
+    "download-github-repo": "^0.1.3"
   }
 }
