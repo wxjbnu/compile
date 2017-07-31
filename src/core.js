@@ -4,16 +4,19 @@
  */
 import fs from 'fs'
 import config from './config'
+import path from 'path'
 
 export function getPages() {
     // 找到需要编译的文件夹 page表示页面
-    var files = fs.readdirSync(__dirname + '/pages');
+    let dir = path.join(__dirname,'pages')
+    var files = fs.readdirSync(dir);
     // 循环生成所有页面
     files.map(function (file,i) {
-        genFiles(__dirname + '/pages/' + files[i],files[i].split('.')[0])
+        let src = path.join(__dirname,'pages',files[i])
+        genFiles(src,files[i].split('.')[0])
     })
 }
-
+genFiles(path.join(__dirname,'temp','vue.wxj'),'test')
 /**
  * 
  * @param {*需要将文件编译成什么类型} type 
@@ -29,12 +32,24 @@ function compile_file(type){
 function genFiles(file,name) {
     // writeFileSync
     // readFileSync
-    const wpath = './'+config.out_path+'/'+ name +'.vue'
+    const type = 'js'
+    let ext = '.vue'
+    if(type=='template'){
+
+    }
+    if(type=='js'){
+        ext = '.js'
+    }
+    if(type=='css'){
+        ext = '.css'
+    }
+
+    const wpath = './'+config.out_path+'/'+ name + ext
     if(!fs.existsSync(config.out_path)){  
         fs.mkdirSync(config.out_path)
     }
     fs.readFile(file, 'utf8', function (err, data) {
-        const file_data = getTemplate(data,'template');
+        const file_data = getTemplate(data,'js');
         fs.writeFile(wpath, file_data, function (err) {
             if (err) throw err;
             console.log(wpath+'\'s saved!');
