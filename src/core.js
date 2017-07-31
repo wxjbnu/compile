@@ -48,13 +48,21 @@ function genFiles(file,name) {
     if(!fs.existsSync(config.out_path)){  
         fs.mkdirSync(config.out_path)
     }
-    fs.readFile(file, 'utf8', function (err, data) {
-        const file_data = getTemplate(data,'js');
-        fs.writeFile(wpath, file_data, function (err) {
-            if (err) throw err;
-            console.log(wpath+'\'s saved!');
-        });
-    })
+
+    const data = fs.readFileSync(file,'utf-8')
+    const dom_data = changeTemp(data)
+    const js_data = changeJS(data)
+    const css_data = changeCSS(data)
+
+    fs.writeFileSync(wpath, js_data);
+
+    // fs.readFile(file, 'utf8', function (err, data) {
+    //     const file_data = getTemplate(data,'js');
+    //     fs.writeFile(wpath, file_data, function (err) {
+    //         if (err) throw err;
+    //         console.log(wpath+'\'s saved!');
+    //     });
+    // })
 }
 
 /**
@@ -89,22 +97,32 @@ function getTemplate(data,type){
 /**
  * dom的模板
  */
-function _dom_temp(){
-
+function _dom_temp(data){
+    const temp = data.substring(data.indexOf('<template'))
+        .substring(data.substring(data.indexOf('<template')).indexOf(">")+1,data.indexOf('</template>')-data.indexOf('<template'))
+    return temp
 }
 
 /**
- * js的模板
+ * 获取文件中的js
+ * @param {*源地址} src 
  */
-function _js_temp(){
-
+function _js_temp(data){
+    // 变换
+    // const data = fs.readFileSync(src,'utf-8')
+    const jstemp = data.substring(data.indexOf('<script'))
+        .substring(data.substring(data.indexOf('<script')).indexOf(">")+1,data.indexOf('</script>')-data.indexOf('<script'))
+    return jstemp
 }
 
 /**
  * css的模板
  */
- function _css_temp(){
-
+ function _css_temp(data){
+    //  变换
+    const csstemp = data.substring(data.indexOf('<style'))
+        .substring(data.substring(data.indexOf('<style')).indexOf(">")+1,data.indexOf('</style>')-data.indexOf('<style'))
+    return csstemp
  }
 
 /**
@@ -112,7 +130,7 @@ function _js_temp(){
  * @param {*转换模板数据} data 
  */
 function changeTemp(data){
-
+    return _dom_temp(data)
 }
 
 /**
@@ -120,7 +138,8 @@ function changeTemp(data){
  * @param {*转换js} js 
  */
 function changeJS(js){
-
+    // 变换
+    return _js_temp(js)
 }
 
 /**
@@ -128,5 +147,5 @@ function changeJS(js){
  * @param {*转换css} css 
  */
 function changeCSS(css){
-
+    return _css_temp(css)
 }
