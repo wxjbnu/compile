@@ -6,6 +6,8 @@ import fs from 'fs'
 import config from './config'
 import path from 'path'
 
+
+// 获取页面文件
 export function getPages() {
     // 找到需要编译的文件夹 page表示页面
     let dir = path.join(__dirname,'pages')
@@ -17,6 +19,62 @@ export function getPages() {
     })
 }
 genFiles(path.join(__dirname,'temp','vue.wxj'),'test')
+/**
+ * 将js的export default去掉
+ * @param {*} code 
+ */
+function jstojs(code) {
+    function test($1){
+        return 'obj=';
+    }
+    var reg = new RegExp("export default","g");   
+    var newstr = code.replace(reg,test);
+}
+
+function xmltoxml(xml) {
+    // 方法二，通过xmldom库转换为xmldom
+    // var doc = new DOMParser().parseFromString(domstr,'text/xml');
+    // doc.documentElement;
+
+    // 方法二，直接替换
+    //  const ev = ['click','tap']
+    // ev.map((e)=>{
+    //     var reg =  new RegExp("@"+e,"g");
+    //     console.log(reg)
+    //     console.log(`xml.replace(${reg},'asd')`)
+    //     d = xml.replace(reg,'asd')
+    // })
+
+    // 微信里面
+    // 事件替换
+    xml.replace(/@click/g,'wx:click')
+    xml.replace(/@tap/g,'wx:tap')
+    // 循环替换
+   
+}
+
+/**
+ * 双括号的变量替换
+ * 将{{name}}变为$name
+ * @param {*} xml 
+ */
+function xmltodata(xml) {
+    xml.replace(/\{\{([^}]+)\}\}/ig, function (matchs, words) {
+        // matchs 是{{xxxxx}}格式的字符串
+        // words  是{{}}中间的表达式
+        return '$'+words
+    })
+}
+
+/**
+ * 获取文件后缀
+ * @param {*} filepath 
+ */
+function getExt(filepath){
+    let info = path.parse(filepath);
+    return info.ext;
+}
+
 /**
  * 
  * @param {*需要将文件编译成什么类型} type 

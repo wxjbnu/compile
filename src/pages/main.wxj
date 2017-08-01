@@ -11,6 +11,11 @@
 export default {
   name: 'main',
   components: {
+  },
+  method:{
+    hello(){
+      
+    }
   }
 }
 </script>
