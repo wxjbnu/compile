@@ -1,0 +1,49 @@
+<style lang="less">
+
+</style>
+
+<template lang="pug">
+
+</template>
+
+<script>
+    import wepy from 'wepy';
+    import mycom from '../components/mycom';
+
+    export default class Index extends wepy.page {
+
+        customData = {};
+
+        customFunction ()　{}
+
+        async onLoad () {
+          console.log('Hello World');
+        } // 只在 Page 实例中会存在页面生命周期函数
+
+        onShow () {} // 只在 Page 实例中会存在页面生命周期函数
+
+        // 特有属性示例
+
+        config = {}; // 对应page.json文件，只在 Page 实例中存在
+
+        data = {
+          myprop: {}
+        }; // 页面所需数据均需在这里声明
+
+        components = {
+          mycom
+        }; // 声明页面所引用的子组件
+
+        mixins = []; // 声明页面所引用的Mixin实例
+
+        computed = { // 声明[计算属性](https://wepyjs.github.io/wepy/#/?id=computed-%e8%ae%a1%e7%ae%97%e5%b1%9e%e6%80%a7)
+          now () { return +new Date(); }
+        };
+
+        watch = {}; // 声明数据watcher
+
+        methods = {}; // 声明页面响应事件。注意，此处只用于声明页面bind，catch事件，自定义方法需以自定义方法的方式声明
+
+        events = {}; // 声明组件之间的事件传递
+    }
+</script>

@@ -4,14 +4,39 @@
  */
 import fs from 'fs'
 import config from './config'
+import path from 'path'
 
+
+// 获取页面文件
 export function getPages() {
     // 找到需要编译的文件夹 page表示页面
     var files = fs.readdirSync(__dirname + '/pages');
+    
     // 循环生成所有页面
     files.map(function (file,i) {
-        genFiles(__dirname + '/pages/' + files[i],files[i].split('.')[0])
+        genFiles(path.join(__dirname,'pages',files[i]),files[i].split('.')[0])
     })
+}
+
+/**
+ * 将js的export default去掉
+ * @param {*} code 
+ */
+function jstojs(code) {
+    function test($1){   
+     return 'obj=';
+    }   
+    var reg = new RegExp("export default","g");   
+    var newstr = code.replace(reg,test);
+}
+
+/**
+ * 获取文件后缀
+ * @param {*} filepath 
+ */
+function getExt(filepath){
+    let info = path.parse(filepath);
+    return info.ext;
 }
 
 /**
