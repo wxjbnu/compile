@@ -10,24 +10,60 @@ import path from 'path'
 // 获取页面文件
 export function getPages() {
     // 找到需要编译的文件夹 page表示页面
-    var files = fs.readdirSync(__dirname + '/pages');
-    
+    let dir = path.join(__dirname,'pages')
+    var files = fs.readdirSync(dir);
     // 循环生成所有页面
     files.map(function (file,i) {
-        genFiles(path.join(__dirname,'pages',files[i]),files[i].split('.')[0])
+        let src = path.join(__dirname,'pages',files[i])
+        genFiles(src,files[i].split('.')[0])
     })
 }
-
+genFiles(path.join(__dirname,'temp','vue.wxj'),'test')
 /**
  * 将js的export default去掉
  * @param {*} code 
  */
 function jstojs(code) {
     function test($1){
-     return 'obj=';
+        return 'obj=';
     }   
     var reg = new RegExp("export default","g");   
     var newstr = code.replace(reg,test);
+}
+
+function xmltoxml(xml) {
+    // 方法二，通过xmldom库转换为xmldom
+    // var doc = new DOMParser().parseFromString(domstr,'text/xml');
+    // doc.documentElement;
+
+    // 方法二，直接替换
+    //  const ev = ['click','tap']
+    // ev.map((e)=>{
+    //     var reg =  new RegExp("@"+e,"g");
+    //     console.log(reg)
+    //     console.log(`xml.replace(${reg},'asd')`)
+    //     d = xml.replace(reg,'asd')
+    // })
+
+    // 微信里面
+    // 事件替换
+    xml.replace(/@click/g,'wx:click')
+    xml.replace(/@tap/g,'wx:tap')
+    // 循环替换
+   
+}
+
+/**
+ * 双括号的变量替换
+ * 将{{name}}变为$name
+ * @param {*} xml 
+ */
+function xmltodata(xml) {
+    xml.replace(/\{\{([^}]+)\}\}/ig, function (matchs, words) {
+        // matchs 是{{xxxxx}}格式的字符串
+        // words  是{{}}中间的表达式
+        return '$'+words
+    })
 }
 
 /**
@@ -54,17 +90,37 @@ function compile_file(type){
 function genFiles(file,name) {
     // writeFileSync
     // readFileSync
-    const wpath = './'+config.out_path+'/'+ name +'.vue'
+    const type = 'js'
+    let ext = '.vue'
+    if(type=='template'){
+
+    }
+    if(type=='js'){
+        ext = '.js'
+    }
+    if(type=='css'){
+        ext = '.css'
+    }
+
+    const wpath = './'+config.out_path+'/'+ name + ext
     if(!fs.existsSync(config.out_path)){  
         fs.mkdirSync(config.out_path)
     }
-    fs.readFile(file, 'utf8', function (err, data) {
-        const file_data = getTemplate(data,'template');
-        fs.writeFile(wpath, file_data, function (err) {
-            if (err) throw err;
-            console.log(wpath+'\'s saved!');
-        });
-    })
+
+    const data = fs.readFileSync(file,'utf-8')
+    const dom_data = changeTemp(data)
+    const js_data = changeJS(data)
+    const css_data = changeCSS(data)
+
+    fs.writeFileSync(wpath, js_data);
+
+    // fs.readFile(file, 'utf8', function (err, data) {
+    //     const file_data = getTemplate(data,'js');
+    //     fs.writeFile(wpath, file_data, function (err) {
+    //         if (err) throw err;
+    //         console.log(wpath+'\'s saved!');
+    //     });
+    // })
 }
 
 /**
@@ -99,22 +155,32 @@ function getTemplate(data,type){
 /**
  * dom的模板
  */
-function _dom_temp(){
-
+function _dom_temp(data){
+    const temp = data.substring(data.indexOf('<template'))
+        .substring(data.substring(data.indexOf('<template')).indexOf(">")+1,data.indexOf('</template>')-data.indexOf('<template'))
+    return temp
 }
 
 /**
- * js的模板
+ * 获取文件中的js
+ * @param {*源地址} src 
  */
-function _js_temp(){
-
+function _js_temp(data){
+    // 变换
+    // const data = fs.readFileSync(src,'utf-8')
+    const jstemp = data.substring(data.indexOf('<script'))
+        .substring(data.substring(data.indexOf('<script')).indexOf(">")+1,data.indexOf('</script>')-data.indexOf('<script'))
+    return jstemp
 }
 
 /**
  * css的模板
  */
- function _css_temp(){
-
+ function _css_temp(data){
+    //  变换
+    const csstemp = data.substring(data.indexOf('<style'))
+        .substring(data.substring(data.indexOf('<style')).indexOf(">")+1,data.indexOf('</style>')-data.indexOf('<style'))
+    return csstemp
  }
 
 /**
@@ -122,7 +188,7 @@ function _js_temp(){
  * @param {*转换模板数据} data 
  */
 function changeTemp(data){
-
+    return _dom_temp(data)
 }
 
 /**
@@ -130,7 +196,8 @@ function changeTemp(data){
  * @param {*转换js} js 
  */
 function changeJS(js){
-
+    // 变换
+    return _js_temp(js)
 }
 
 /**
@@ -138,5 +205,5 @@ function changeJS(js){
  * @param {*转换css} css 
  */
 function changeCSS(css){
-
+    return _css_temp(css)
 }

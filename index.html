@@ -4,5 +4,31 @@
 </head>
 <body>
     
+    <script>
+        var domstr = `
+            <div>
+                <ul @click="showall">
+                    <li>aaa</li>
+                    <li>bbb</li>
+                    <li>ccc</li>
+                </ul>
+                <p>这个是列表</p>
+            </div>
+        `
+        var xml = '<xml xmlns="a" xmlns:c="./lite">\n'+
+                '\t<child>test</child>\n'+
+                '\t<child></child>\n'+
+                '\t<child/>\n'+
+            '</xml>'
+        
+        var doc = new DOMParser().parseFromString(domstr,'text/xml');
+        // doc.documentElement.setAttribute('x','y');
+        // doc.documentElement.setAttributeNS('./lite','c:x','y2');
+        // var nsAttr = doc.documentElement.getAttributeNS('./lite','x')
+        // console.info(nsAttr)
+        // console.info(doc)
+            console.log(doc.documentElement.getAttribute('click'))
+        // document.write(doc)
+    </script>
 </body>
 </html>
