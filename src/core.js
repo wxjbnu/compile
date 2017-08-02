@@ -23,7 +23,7 @@ export function getPages() {
  * @param {*} code 
  */
 function jstojs(code) {
-    function test($1){   
+    function test($1){
      return 'obj=';
     }   
     var reg = new RegExp("export default","g");   
