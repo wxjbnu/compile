@@ -1,6 +1,6 @@
 <template lang="pug">
   <div @click="showall" class="main">
-    <span>欢迎欢迎</span>
+    <span w:class="{hello:isHe}" w:style="{'font-size':'12px','color':'#eee'}">欢迎欢迎</span>
     <br>
     <span w:for="nameArr" w:item="name" w:index="i" class="toggle">{{name}}</span>
     <br>

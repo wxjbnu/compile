@@ -36,6 +36,11 @@ const dom1 = `
 // });
 
 
+/**
+ * 将模板里面的事件和列表等事件替换 
+ * @param {*} node 
+ * @param {*} $ 
+ */
 function xmlLoop(node,$) {
     // console.log($)
     // console.log('xmlloop')
@@ -77,7 +82,34 @@ function xmlLoop(node,$) {
                 $(this).attr('w:item',null)
                 $(this).attr('w:index',null)
             }
-            console.log($(this).html())
+
+            // 判断条件渲染
+            if($(this).attr('w:if')){
+                console.log($(this).attr('w:if'))
+                // 有if事件
+                $(this).attr('wx:if',$(this).attr('w:if'))
+                $(this).attr('w:if',null)
+            }
+            if($(this).attr('w:else')){
+                // 有else事件
+                $(this).attr('wx:else',$(this).attr('w:else'))
+                $(this).attr('w:else',null)
+            }
+
+            // 判断是否有内置样式
+            if($(this).attr('w:class')){
+                // console.log($(this).attr('w:class'))
+                // 有class
+                $(this).attr(':class',$(this).attr('w:class'))
+                $(this).attr('w:class',null)
+            }
+            if($(this).attr('w:style')){
+                // 有else事件
+                $(this).attr(':style',$(this).attr('w:style'))
+                $(this).attr('w:style',null)
+            }
+
+            // console.log($(this).html())
         });
         
     }
@@ -90,12 +122,8 @@ function xmlLoop(node,$) {
 // console.log($('temp').html())
 // console.log($('temp').children().eq(0).html())
 const fileDist = path.join('dist','index.html')
-// fs.writeFile(fileDist, $('temp').html(), function (err) {
-//     if (err) throw err;
-//         console.log('保存完成')
-//     // console.log(wpath+'\'s saved!');
-// });
 
+// 读.wxj文件获取模板内容
 fs.readFile(path.join(__dirname,'pages','index.wxj'), 'utf8', function (err, data) {
     // data = data.replace(/template/g,'temp')
     let $ = cheerio.load(`<temp>${data}</temp>`,{
