@@ -1,10 +1,10 @@
-<template>
-  <div class="main">
+<template lang="pug">
+  <div @click="showall" class="main">
     <span>欢迎欢迎</span>
     <br>
-    <span class="toggle">wxj</span>
+    <span w:for="nameArr" w:item="name" w:index="i" class="toggle">{{name}}</span>
     <br>
-    <p>
+    <p @click="goto(123)">
       oschina github
       1:git add .
       2:git commit -am "speak"
