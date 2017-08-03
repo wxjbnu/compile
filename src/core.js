@@ -26,7 +26,7 @@ genFiles(path.join(__dirname,'temp','vue.wxj'),'test')
 function jstojs(code) {
     function test($1){
         return 'obj=';
-    }   
+    }
     var reg = new RegExp("export default","g");   
     var newstr = code.replace(reg,test);
 }
@@ -44,13 +44,36 @@ function xmltoxml(xml) {
     //     console.log(`xml.replace(${reg},'asd')`)
     //     d = xml.replace(reg,'asd')
     // })
+    
+    /**
+     * vue里面的列表渲染       
+     * v-for="(item,index) in items"
+     * 
+     * 小程序里面的列表渲染     
+     * wx:for="{{array}}" wx:for-index="idx" wx:for-item="itemName"
+     */
 
     // 微信里面
     // 事件替换
-    xml.replace(/@click/g,'wx:click')
-    xml.replace(/@tap/g,'wx:tap')
+    // labrador
+    xml = xml.replace(/@click/g,'wx:click')
+    xml = xml.replace(/@tap/g,'wx:tap')
+
+    // 小程序源码
+    xml = xml.replace(/@click/g,'bindtap')
+    xml = xml.replace(/@tap/g,'bindtap')
+
+    // 
     // 循环替换
+    /**
+     * 循环：<div w:for="arr" w:index="index" w:item="item"></div>
+     * 
+     * 
+     */
+
+    xml = xml.replace(/@for="()"/g,'wx:tap')
    
+    return xml
 }
 
 /**
