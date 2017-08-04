@@ -36,28 +36,47 @@ function getExt(filepath){
     return info.ext;
 }
 
-function buildxml(filename){
-    const filepath = path.join(__dirname,'pages',filename)
-    const fileDist = path.join(__dirname,'../dist',filename.replace(/.wxj/,'')+'.html')
-    fs.readFile(filepath, 'utf8', function (err, data) {
-        let $ = cheerio.load(`<temp>${data}</temp>`,{
+//
+function buildxml(data){
+    // const filepath = path.join(__dirname,'pages',filename)
+    // const fileDist = path.join(__dirname,'../dist',filename.replace(/.wxj/,'')+'.html')
+    
+    // let data = fs.readFileSync(filepath, 'utf8')
+    let $ = cheerio.load(`<temp>${data}</temp>`,{
             ignoreWhitespace: true,
             decodeEntities: false
         });
-        // 只获取template部分,script和style部分过滤掉
-        let dd = $('template').html()
-        $ = cheerio.load(`<temp>${dd}</temp>`,{
-            ignoreWhitespace: true,
-            decodeEntities: false
-        });
-        xmlLoop($('temp').children(),$)
-        let outdata = $('temp').html().replace(/temp/g,'template')
-        fs.writeFile(fileDist, outdata, function (err) {
-            if (err) throw err;
-                console.log('保存完成')
-            // console.log(wpath+'\'s saved!');
-        });
-    })
+    // 只获取template部分,script和style部分过滤掉
+    let dd = $('template').html()
+    $ = cheerio.load(`<temp>${dd}</temp>`,{
+        ignoreWhitespace: true,
+        decodeEntities: false
+    });
+    xmlLoop($('temp').children(),$)
+    let outdata = $('temp').html().replace(/temp/g,'template')
+    return `<template>${outdata}</template>`
+    // 以下为异步的操作文件
+    // fs.readFile(filepath, 'utf8', function (err, data) {
+    //     let $ = cheerio.load(`<temp>${data}</temp>`,{
+    //         ignoreWhitespace: true,
+    //         decodeEntities: false
+    //     });
+    //     // 只获取template部分,script和style部分过滤掉
+    //     let dd = $('template').html()
+    //     $ = cheerio.load(`<temp>${dd}</temp>`,{
+    //         ignoreWhitespace: true,
+    //         decodeEntities: false
+    //     });
+    //     xmlLoop($('temp').children(),$)
+    //     let outdata = $('temp').html().replace(/temp/g,'template')
+    //     // fs.writeFile(fileDist, outdata, function (err) {
+    //     //     if (err) throw err;
+    //     //         console.log('保存完成')
+    //     //     // console.log(wpath+'\'s saved!');
+    //     // });
+
+    //     return outdata
+    // })
 }
 /**
  * 将模板里面的事件和列表等事件替换 
@@ -132,4 +151,4 @@ function xmlLoop(node,$) {
     }
 }
 
-module.exports = getPages;
+module.exports = buildxml;

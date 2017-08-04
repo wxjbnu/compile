@@ -11,3 +11,11 @@ var vue_obj_name = [
     'method',
     'mounted',
 ]
+
+function buildjs(data) {
+    const jstemp = data.substring(data.indexOf('<script'))
+        .substring(data.substring(data.indexOf('<script')).indexOf(">")+1,data.indexOf('</script>')-data.indexOf('<script'))
+    return `<js>${jstemp}</js>`
+}
+
+module.exports = buildjs

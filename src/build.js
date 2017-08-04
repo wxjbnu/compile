@@ -1,6 +1,4 @@
-const getPages = require('./compile-xml.js');
+const compile = require('./compile.js');
 
-function build(){
-    getPages()
-}
-build()
+
+compile()
