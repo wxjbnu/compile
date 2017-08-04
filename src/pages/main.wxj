@@ -1,5 +1,5 @@
 <template>
-  <div class="main">
+  <div @click="mainclick" class="main">
     <span>123123</span>
     <br>
     <span class="toggle">wxj</span>
@@ -14,7 +14,7 @@ export default {
   },
   method:{
     hello(){
-      
+
     }
   }
 }

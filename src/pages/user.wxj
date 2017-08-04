@@ -2,7 +2,7 @@
   <div class="main">
     <p>wxj</p>
     <br>
-    <span class="toggle">wxj</span>
+    <span :class="{userinfo:isuser}" class="toggle">wxj</span>
   </div>
 </template>
 

@@ -9,10 +9,10 @@
     "xmldom": "^0.1.27"
   },
   "scripts": {
-    "build": "babel-node src/index.js",
+    "build": "babel-node src/build.js",
     "copy": "babel-node src/fs.js",
     "init": "babel-node src/create.js",
-    "xml": "babel-node src/xml.js"
+    "xml": "babel-node src/compile-xml.js"
   },
   "dependencies": {
     "colors": "^1.1.2",

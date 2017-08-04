@@ -1,4 +1,4 @@
-import {DOMParser, DOMImplementation} from 'xmldom';
+// import {DOMParser, DOMImplementation} from 'xmldom';
 
 import cheerio from 'cheerio'
 import fs from 'fs'
@@ -122,6 +122,8 @@ function xmlLoop(node,$) {
 // console.log($('temp').html())
 // console.log($('temp').children().eq(0).html())
 const fileDist = path.join('dist','index.html')
+// let info = path.parse(fileDist);
+// console.log(info.ext);
 
 // 读.wxj文件获取模板内容
 fs.readFile(path.join(__dirname,'pages','index.wxj'), 'utf8', function (err, data) {
