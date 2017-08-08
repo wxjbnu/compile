@@ -1,9 +1,12 @@
 // var fs = require('fs')
 // var fs = require('fs')
 import fs from 'fs'
+import path from 'path'
 import {getPages} from './core'
 
-console.log(getPages)
+const m = require('./../dist/main.js')
+console.log(path.sep);
+m.default.method.hello()
 
 var base = {//node基本常数
     currentDir: process.cwd(),
@@ -12,7 +15,7 @@ var base = {//node基本常数
 
 // fs.appendFile
 // console.log(__dirname+'/pages')
-getPages()
+// getPages()
 
 // function getPages1() {
 //     var files = fs.readdirSync(__dirname + '/pages');
